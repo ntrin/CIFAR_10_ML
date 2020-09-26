@@ -1,0 +1,339 @@
+
+oOoOOoOOo  o               ooOoOOo      o                       .oOo                                             .oOOOo.                        
+    o     O                   O        O                     o  O    o                     o                    .O     o                        
+    o     o                   o        o                 O      o                      O                        o                               
+    O     O                   O        o                oOo     OoO                   oOo                       O                               
+    o     OoOo. .oOo.         o    .oOoO  .oOo. 'OoOo.   o   O  o    O  .oOo  .oOoO'   o   O  .oOo. 'OoOo.      O   .oOOo .oOoO' `oOOoOO. .oOo. 
+    O     o   o OooO'         O    o   O  OooO'  o   O   O   o  O    o  O     O   o    O   o  O   o  o   O      o.      O O   o   O  o  o OooO' 
+    O     o   O O             O    O   o  O      O   o   o   O  o    O  o     o   O    o   O  o   O  O   o       O.    oO o   O   o  O  O O     
+    o'    O   o `OoO'      ooOOoOo `OoO'o `OoO'  o   O   `oO o' O'   o' `OoO' `OoO'o   `oO o' `OoO'  o   O        `OooO'  `OoO'o  O  o  o `OoO' 
+               
+
+Team : Sigmoid
+
+
+
+N E T W O R K S
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+EfficientNet-B7
+
+ResNet152
+
+Both models presented use pretrained ImageNet weights.
+
+
+
+Required libraries:
+-------------------
+jupyter
+requests
+pytorch
+torchvision
+pillow
+scikit-learn
+efficientnet_pytorch
+pycm
+livelossplot
+csv
+
+
+EfficientNet-B7
+-----------------------------------------------------------------------------------------------------------------------------------------------
+download_file_from_google_drive(id, destination):
+	downloads a file from google drive, used here to download image tensors.
+	Parameters:
+	-----------
+		id : string
+			file_id used in URL to find file on Google servers
+		destination : string
+			file download destination
+
+get_confirm_token(response):
+	Parameters:
+	-----------
+		response: session URL object
+			used for permission confirmation
+
+save_response_content(response, destination):
+	Parameters:
+	-----------
+		response: session URL object
+			used for permission confirmation
+		destination: string
+			file download destination
+
+Class CustomeDataset(Dataset):
+	Creates custom dataset for image loading
+	Dataset: torch.utils.data.Dataset object
+
+	__init__(self, data, targets, transform=None): 
+		to take in data and labels
+
+	__len__(self): 
+		to obtain size of dataset
+
+	__getitem__(self, idx): 
+		to support indexing
+
+	Parameters:
+	-----------
+		data: array-like containing the full set of data to be subsampled
+        targets: array-like containing the stratified shuffle targets
+        transform (callable, optional): Optional transforms to be applied, default None
+        idx: integer
+
+    Outputs:
+    --------
+    	len(self.data): tuple-like, size of data set
+    	sample: data item at index idx
+    	label: target at index idx
+
+
+
+Class AverageMeter(object):
+	Computes and stores the average and current value
+	object:
+
+	__init__(self, name, fmt=':f'):
+
+	reset(self):
+		resets values to 0
+
+	update(self, val, n=1):
+		updates previously stored values
+
+	__str__(self):
+		stores value and displays
+	
+	Parameters:
+	-----------
+		name: string
+			name of element
+        fmt: string
+
+        val: float
+        	current value
+        n: integer
+        	used to count number of elements used in calculations
+
+
+accuracy(output, target, topk=(1,)):
+	Computes accuracy over k-top predictions for the specified values of k
+	Parameters:
+	-----------
+		output: 
+			outputs that we want to compute over
+
+		target: array-like
+			labels
+
+train(train_loader, model, criterion, optimizer, liveloss):
+	trains network
+	Parameters:
+	-----------
+		train_loader: torch.utils.data.DataLoader object
+			loads the training data
+		model: Pytorch model
+		criterion: nn.CrossEntropyLoss() object
+		optimizer: Pytorch optimizer function
+		liveloss: live plotting function
+	Outputs:
+	--------
+		losses.avg:
+			average losses
+		top1.avg:
+			top probability
+
+
+validate(val_loader, model, criterion, liveloss):
+	calculates validation parameters
+	Parameters:
+	-----------
+		val_loader: torch.utils.data.DataLoader object
+			loads the validation data
+		model: Pytorch model
+		criterion: nn.CrossEntropyLoss() object
+		liveloss: live plotting function
+	Outputs:
+	--------
+		losses.avg:
+			average losses
+		top1.avg:
+			top probability
+
+test(test_loader, model):
+	Parameters:
+	-----------
+		test_loader: torch.utils.data.DataLoader object
+			loads the test data
+		model: Pytorch model
+	Outputs:
+	--------
+		pred: float
+			predicted max probability
+
+
+
+
+ResNet152
+----------------------------------------------------------------------------------------------------------------------------------------------
+download_file_from_google_drive(id, destination):
+	downloads a file from google drive, used here to download image tensors.
+	Parameters:
+	-----------
+		id : string
+			file_id used in URL to find file on Google servers
+		destination : string
+			file download destination
+
+get_confirm_token(response):
+	Parameters:
+	-----------
+		response: session URL object
+			used for permission confirmation
+
+save_response_content(response, destination):
+	Parameters:
+	-----------
+		response: session URL object
+			used for permission confirmation
+		destination: string
+			file download destination
+
+
+Class CustomeDataset(Dataset):
+	Creates custom dataset for image loading
+	Dataset: torch.utils.data.Dataset object
+
+	__init__(self, data, targets, transform=None): 
+		to take in data and labels
+
+	__len__(self): 
+		to obtain size of dataset
+
+	__getitem__(self, idx): 
+		to support indexing
+
+	Parameters:
+	-----------
+		data: array-like containing the full set of data to be subsampled
+        targets: array-like containing the stratified shuffle targets
+        transform (callable, optional): Optional transforms to be applied, default None
+        idx: integer
+
+    Outputs:
+    --------
+    	len(self.data): tuple-like, size of data set
+    	sample: data item at index idx
+    	label: target at index idx
+
+
+Class AverageMeter(object):
+	Computes and stores the average and current value
+	object:
+
+	__init__(self, name, fmt=':f'):
+
+	reset(self):
+		resets values to 0
+
+	update(self, val, n=1):
+		updates previously stored values
+
+	__str__(self):
+		stores value and displays
+	
+	Parameters:
+	-----------
+		name: string
+			name of element
+        fmt: string
+
+        val: float
+        	current value
+        n: integer
+        	used to count number of elements used in calculations
+
+
+accuracy(output, target, topk=(1,)):
+	Computes accuracy over k-top predictions for the specified values of k
+	Parameters:
+	-----------
+		output: 
+			outputs that we want to compute over
+
+		target: array-like
+			labels
+
+
+train(train_loader, model, criterion, optimizer, liveloss):
+	trains network
+	Parameters:
+	-----------
+		train_loader: torch.utils.data.DataLoader object
+			loads the training data
+		model: Pytorch model
+		criterion: nn.CrossEntropyLoss() object
+		optimizer: Pytorch optimizer function
+		liveloss: live plotting function
+	Outputs:
+	--------
+		losses.avg:
+			average losses
+		top1.avg:
+			top probability
+
+
+validate(val_loader, model, criterion, liveloss):
+	calculates validation parameters
+	Parameters:
+	-----------
+		val_loader: torch.utils.data.DataLoader object
+			loads the validation data
+		model: Pytorch model
+		criterion: nn.CrossEntropyLoss() object
+		liveloss: live plotting function
+	Outputs:
+	--------
+		losses.avg:
+			average losses
+		top1.avg:
+			top probability
+
+
+test(test_loader, model):
+	Parameters:
+	-----------
+		test_loader: torch.utils.data.DataLoader object
+			loads the test data
+		model: Pytorch model
+	Outputs:
+	--------
+		pred: float
+			predicted max probability
+
+
+test(test_loader, model):
+	Parameters:
+	-----------
+		test_loader: torch.utils.data.DataLoader object
+			loads the test data
+		model: Pytorch model
+	Outputs:
+	--------
+		pred: float
+			predicted max probability
+
+
+evaluate(model, data_loader):
+	Parameters:
+	-----------
+		model: PyTorch implemented model
+		data_loader: DataLoader object
+	Outputs:
+	--------
+		np.concatenate(y_preds, 0): array-like
+			predicted targets
+		np.concatenate(ys, 0): array-like
+			actual targets

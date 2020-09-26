@@ -1,0 +1,10 @@
+jupyter
+requests
+pytorch
+torchvision
+pillow
+scikit-learn
+efficientnet_pytorch
+pycm
+livelossplot
+csv
