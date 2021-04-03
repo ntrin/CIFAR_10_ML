@@ -1,6 +1,6 @@
 ## ACSE 4.4 - Machine Learning Miniproject
 ## The Identification Game
-#### Team Sigmoid: Hanchao Chen, Mia Chen, Helen Situ, Nicolas Trinephi, Ke Wen
+#### Team Sigmoid
 
 ![image](https://i.ibb.co/myQ1g49/AAAADATA.png)
 
